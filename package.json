@@ -1,0 +1,28 @@
+{
+  "name": "hw-boot-wk18-nosql-social-network-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon index"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bernardjbs/hw-boot-wk18-nosql-social-network-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bernardjbs/hw-boot-wk18-nosql-social-network-api/issues"
+  },
+  "homepage": "https://github.com/bernardjbs/hw-boot-wk18-nosql-social-network-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0"
+  }
+}
