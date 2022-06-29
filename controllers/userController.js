@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 // Export controller CRUD functions
 module.exports = {
@@ -46,18 +46,19 @@ module.exports = {
     }
   },
 
-  // Delete a user
+  // Delete a user and associated thoughts
   async deleteUser(req, res) {
     try {
-      await User.findOneAndDelete(
+      const user = await User.findById(
         { _id: req.params.userId },
       );
+      await Thought.deleteMany({ _id: { $in: user.thoughts } })
+      await User.findByIdAndDelete({_id: req.params.userId})
       res.status(200).json({ message: "User deleted!" });
     } catch (err) {
       res.status(400).json({ message: 'Your request could not be performed, please try again', body: err });
     }
   },
-
 
   // Add a friend
   async addFriend(req, res) {
