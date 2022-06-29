@@ -2,7 +2,9 @@ const router = require('express').Router();
 const {
   getUsers,
   createUser, 
-  getUser
+  getUser,
+  updateUser, 
+  deleteUser
 } = require('../../controllers/userController');
 
 
@@ -14,7 +16,7 @@ router.route('/')
 // Defining the http requests route for /api/users/:userId (with id)
 router.route('/:userId')
   .get(getUser)
-  .put()
-  .delete();
+  .put(updateUser)
+  .delete(deleteUser);
 
 module.exports = router;

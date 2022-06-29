@@ -35,18 +35,26 @@ module.exports = {
   // Update a user
   async updateUser(req, res) {
     try {
-
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $set: req.body },
+        { new: true },
+      );
+      res.status(200).json(user)
     } catch (err) {
-
+      res.status(400).json({ message: 'Your request could not be performed, please try again', body: err });
     }
   },
 
   // Delete a user
   async deleteUser(req, res) {
     try {
-
+      const user = await User.findOneAndDelete(
+        { _id: req.params.userId },
+      );
+      res.status(200).json({ message: "User deleted!" });
     } catch (err) {
-
+      res.status(400).json({ message: 'Your request could not be performed, please try again', body: err });
     }
   },
 };
