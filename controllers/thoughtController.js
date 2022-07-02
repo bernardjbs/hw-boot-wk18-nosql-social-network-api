@@ -1,4 +1,5 @@
-const { Thought } = require('../models');
+const { User, Thought } = require('../models');
+const { startSession } = require('mongoose');
 
 // Export controller CRUD functions
 module.exports = {
@@ -48,17 +49,30 @@ module.exports = {
   },
 
   // Delete a thought
-  async deleteThought(req, res) {
-    try {
-      await Thought.findOneAndDelete(
-        { _id: req.params.thoughtId },
-      );
-      res.status(200).json({ message: "Thought deleted!" });
-    } catch (err) {
-      res.status(400).json({ message: 'Your request could not be performed, please try again', body: err });
-    }
+  deleteThought(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No such thought exists' })
+          : User.findOneAndUpdate(
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
+              { new: true }
+            )
+      )
+      .then((user) =>
+        !user
+          ? res.status(404).json({
+              message: 'Thought deleted, but no users found',
+            })
+          : res.json({ message: 'Thought successfully deleted' })
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
-
+  
   // Create a reaction
   async createReaction(req, res) {
     try {
